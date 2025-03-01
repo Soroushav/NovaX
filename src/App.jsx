@@ -1,15 +1,17 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />} path="*">
-            {/* <Route path="dashboard" element={<Dashboard/>}></Route>
-            <Route></Route>
-            <Route></Route>
-            <Route></Route> */}
+        <Route element={<AppLayout />}>
+          <Route
+            index
+            element={<Navigate replace to="dashboard"></Navigate>}
+          ></Route>
+          <Route path="dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
