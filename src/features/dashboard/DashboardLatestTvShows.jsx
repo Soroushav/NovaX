@@ -36,9 +36,9 @@ function DashboardLatestTvShow() {
   const [updateActiveList, setUpdateActiveList] = useState(updatedTv[0]);
   const { title, seasons, ratings, backdropImage } = updateActiveList;
   return (
-    <>
-    <p className="text-3xl mb-4 ml-2 text-stone-600">Updated Tv-Shows</p>
-      <div className="relative bg-red-200 h-[31rem] max-w-[1200px] rounded-3xl overflow-hidden">
+    <div className="max-w-[1200px] mx-auto">
+    <p className="text-3xl mb-4 ml-2 text-stone-600 ">Updated Tv-Shows</p>
+      <div className="relative bg-red-200 h-[31rem] max-w-[1200px] rounded-3xl overflow-hidden mx-auto">
         <img
           src={backdropImage}
           alt=""
@@ -104,7 +104,7 @@ function DashboardLatestTvShow() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
