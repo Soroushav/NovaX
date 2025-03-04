@@ -2,7 +2,7 @@ import DashboardLatestTvShow from "../features/dashboard/DashboardLatestTvShows"
 import DashboardTrending from "../features/dashboard/DashboardTrending";
 function Dashboard() {
   return (
-    <div>
+    <div className="px-12">
       <DashboardLatestTvShow />
       <DashboardTrending />
     </div>

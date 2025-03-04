@@ -3,7 +3,7 @@ function UserAvatar() {
     <div className="flex justify-center items-center gap-5 mx-5">
       <img
         className="block w-14 aspect-square object-cover rounded-full"
-        src="default-user.jpg"
+        src="/default-user.jpg"
       />
       <div>
         <p className="font-bold">SoroushAv</p>
