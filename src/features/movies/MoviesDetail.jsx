@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import Button from "../../ui/Button";
-import { HiBookmark, HiHeart } from "react-icons/hi";
+import { HiBookmark, HiHeart, HiStar } from "react-icons/hi";
 import { HiListBullet } from "react-icons/hi2";
+import CastSlider from "../../ui/CastSlider";
 const updatedTrending = [
   {
     id: 1,
@@ -64,6 +65,89 @@ const updatedTrending = [
     },
   },
 ];
+const cast = [
+  {
+    id: 1,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+  {
+    id: 2,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+  {
+    id: 3,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+  {
+    id: 4,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+  {
+    id: 5,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+  {
+    id: 6,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+  {
+    id: 7,
+    fullName: "John Turturro",
+    movieName: "Irving Bailiff",
+    numEpisodes: 10,
+    backdropImage: "/cast.png",
+  },
+];
+const seasonsNumber = [
+  {
+    id: 1,
+    seasonNumber: 1,
+    year: 2022,
+    episodes: 9,
+    rating: 84,
+    poster: "/movie-poster-season1.jpg",
+    detail: "Season 1 of Severance premiered on February 17, 2022.",
+    overview:
+      'At Lumon Industries, employees undergo "severance," a procedure dividing their work and personal memories. Mark, a grieving team leader, begins to uncover the dark secrets of the company, forcing him and his coworkers to confront questions of identity, free will, and corporate control.',
+  },
+  {
+    id: 2,
+    seasonNumber: 2,
+    year: 2025,
+    episodes: 10,
+    rating: 81,
+    poster: "/movie-poster-season2.jpg",
+    detail: "Season 2 of Severance premiered on January 16, 2025.",
+    overview:
+      "In season two, Mark and his friends learn the dire consequences of trifling with the severance barrier, leading them further down a path of woe.",
+  },
+];
+const review = {
+  id: 1,
+  img: "/review-1.jpg",
+  rating: 90,
+  name: "Cortney",
+  date: "April 26, 2022",
+  text: "Give it time! This show is a slow burn and I have to admit, it almost lost me a couple of episodes in. I was feeling like there was too much back story and at the same time we knew nothing. Wow, was I wrong.It is an original idea that keeps you guessing. The mood, the tone, the writing, the cast, everything is just perfect. I seriously can't wait for Season 2!",
+};
 function MoviesDetail() {
   const { moviesId } = useParams();
   const { id, title, backdropImage, seasons, ratings } = updatedTrending.find(
@@ -148,6 +232,164 @@ function MoviesDetail() {
             </p>
           </div>
         </div>
+      </div>
+      {/* Series Cast */}
+      <div>
+        <h2 className="text-stone-600 text-3xl ml-10 mt-5 font-semibold mb-4">
+          Series Cast
+        </h2>
+        <div className="w-full overflow-hidden px-8">
+          <CastSlider cast={cast} />
+        </div>
+      </div>
+
+      {/* Seasons */}
+      <h2 className="text-stone-600 text-3xl ml-10 mt-5 font-semibold mb-4 border-t border-stone-300 pt-6">
+        Seasons
+      </h2>
+      <div className="flex flex-col gap-3 px-11 border-b pb-6 border-stone-300">
+        {seasonsNumber.map((season) => (
+          <div className="rounded-xl border shadow-stone-300/50 shadow-lg border-stone-300 h-52 overflow-hidden flex gap-5">
+            <div className="h-full w-[120px] flex-shrink-0">
+              <img
+                src={season.poster}
+                alt={`season${season.seasonNumber} Poster`}
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div className="py-5">
+              <h2 className="text-stone-700 font-medium text-2xl">
+                Season{`${season.seasonNumber}`}
+              </h2>
+              <div className="flex items-center gap-2 font-medium">
+                <div className="flex items-center bg-indigo-600 w-16 p-1 rounded-lg">
+                  <HiStar className="text-yellow-400" />
+                  <p className="text-stone-100">{season.rating}%</p>
+                </div>
+                <p className="text-stone-700">
+                  {season.year} • {season.episodes} Episodes
+                </p>
+              </div>
+              <p className="mt-4 text-stone-500">{season.detail}</p>
+              <p className="max-w-[80%] text-stone-800">{season.overview}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Review */}
+      <h2 className="text-stone-600 text-3xl ml-10 mt-5 font-semibold mb-4  pt-6">
+        Review
+      </h2>
+      <div className="flex flex-col gap-3 px-11 border-b pb-6 border-stone-300">
+        <div className="rounded-xl border shadow-stone-300/50 shadow-lg border-stone-300 h-60 overflow-hidden flex gap-5">
+          <div className="ml-4 mt-4 flex flex-col gap-3">
+            {/* Heading */}
+            <div className="flex items-center gap-2">
+              {/* Image */}
+              <div>
+                <img
+                  src={review.img}
+                  alt="review img"
+                  className="h-14 w-14 rounded-full"
+                />
+              </div>
+              {/* Review Information */}
+              <div className="flex flex-col gap-1">
+                {/* Name */}
+                <p className="text-lg text-stone-800">
+                  A review by :{" "}
+                  <span className="font-semibold text-stone-600">
+                    {review.name}
+                  </span>
+                </p>
+                {/* Rating and Date */}
+                <div className="flex gap-2 items-center">
+                  <div className="flex items-center bg-indigo-600 w-16 p-1 rounded-lg">
+                    <HiStar className="text-yellow-400" />
+                    <p className="text-stone-100">{review.rating}%</p>
+                  </div>
+                  <p className="text-stone-600 ">
+                    Written by{" "}
+                    <span className="font-medium text-stone-800">
+                      {review.name}
+                    </span>{" "}
+                    on <span>{review.date}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p className="w-[95%] px-2 text-stone-800 text-lg">{review.text}</p>
+          </div>
+        </div>
+      </div>
+      {/* Recommendations */}
+      <h2 className="text-stone-600 text-3xl ml-10 mt-5 font-semibold mb-4  pt-6">
+        Recommendations
+      </h2>
+      <div className="h-80 px-10 overflow-hidden">
+        <ul className="h-full flex items-center gap-4 overflow-x-auto">
+          <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
+            <div>
+              <img
+                src="/tv1-backdrop.jpg"
+                alt=""
+                className="w-full h-5/6 object-cover"
+              />
+              <p className="text-center mt-1 text-stone-700 text-lg font-semibold">
+                Ted Lasso
+              </p>
+            </div>
+          </li>
+          <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
+            <div>
+              <img
+                src="/tv2-backdrop.jpg"
+                alt=""
+                className="w-full h-5/6 object-cover"
+              />
+              <p className="text-center mt-1 text-stone-700 text-lg font-semibold">
+                Shrinking
+              </p>
+            </div>
+          </li>
+          <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
+            <div>
+              <img
+                src="/tv3-backdrop.jpg"
+                alt=""
+                className="w-full h-5/6 object-cover"
+              />
+              <p className="text-center mt-1 text-stone-700 text-lg font-semibold">
+                Silo
+              </p>
+            </div>
+          </li>
+          <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
+            <div>
+              <img
+                src="/tv4-backdrop.jpg"
+                alt=""
+                className="w-full h-5/6 object-cover"
+              />
+              <p className="text-center mt-1 text-stone-700 text-lg font-semibold">
+                The Bear
+              </p>
+            </div>
+          </li>
+          <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
+            <div>
+              <img
+                src="/tv5-backdrop.jpg"
+                alt=""
+                className="w-full h-5/6 object-cover"
+              />
+              <p className="text-center mt-1 text-stone-700 text-lg font-semibold">
+                BEEF
+              </p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   );
