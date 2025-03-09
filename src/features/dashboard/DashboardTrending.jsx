@@ -69,7 +69,7 @@ function DashboardTrending() {
   return (
     <div className="max-w-[1200px] mx-auto">
       <p className="text-3xl mb-4 ml-2 mt-6 text-stone-600">Trending</p>
-      <Slider movies={updatedTrending}/>
+      <Slider movies={updatedTrending} slides={6}/>
     </div>
   );
 }

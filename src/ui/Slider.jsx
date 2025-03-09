@@ -1,12 +1,12 @@
 import { HiBookmark, HiHeart, HiOutlineSquaresPlus } from "react-icons/hi2";
 import SliderSlick from "react-slick";
 
-function Slider({ movies }) {
+function Slider({ movies, slides }) {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: slides,
     slidesToScroll: 1
   };
   
@@ -18,7 +18,7 @@ function Slider({ movies }) {
         {movies.map((movie) => (
           <div key={movie.id} className="group">
             {/* Movie Card Container */}
-            <div className="h-60 bg-stone-900 rounded-3xl overflow-hidden relative">
+            <div className="h-60 bg-stone-900 rounded-3xl overflow-hidden relative mx-2">
               {/* Hover Effect: Dark Overlay with Blur */}
               
               <div className="absolute inset-0 bg-black/30 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
