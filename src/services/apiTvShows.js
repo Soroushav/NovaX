@@ -10,11 +10,7 @@ export async function getTvShows() {
 
   const options = {
     method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3N2FmZjdiMDkyZjEyNTc5MDE3ODk2YzFhNWQxMWE0MCIsIm5iZiI6MTc0MDgyMTA5NC42OTUwMDAyLCJzdWIiOiI2N2MyZDI2NmMyZTYzMzc1NWI2ZGQ4OWIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.aNsRv1gY77RK6DDLVSF-AY0vpwPseo_ZNVzeaLZXa-o",
-    },
+    headers: headers,
   };
 
   try {
@@ -25,5 +21,69 @@ export async function getTvShows() {
   } catch (error) {
     console.error("Error fetching movies:", error);
     return null; // Handle errors gracefully
+  }
+}
+export async function getTvShowsTrending() {
+  const url = "https://api.themoviedb.org/3/trending/tv/week?language=en-US";
+  const options = {
+    method: "GET",
+    headers: headers,
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data.results.slice(0, 12);
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    return null;
+  }
+}
+
+export async function getTvShowsDetails({ tvShowId }) {
+  const url = `https://api.themoviedb.org/3/tv/${tvShowId}?language=en-US`;
+  const options = {
+    method: "GET",
+    headers: headers,
+  };
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
+    return null;
+  }
+}
+
+export async function getTvShowCast({ tvShowId }) {
+  const url = `https://api.themoviedb.org/3/tv/${tvShowId}/aggregate_credits`;
+  const options = {
+    method: "GET",
+    headers: headers,
+  };
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data.cast.slice(0, 15);
+  } catch (error) {
+    console.error("Error fetching movie cast:", error);
+    return null;
+  }
+}
+
+export async function getTvShowReviews({ tvShowId }) {
+  const url = `https://api.themoviedb.org/3/tv/${tvShowId}/reviews`;
+  const options = {
+    method: "GET",
+    headers: headers,
+  };
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching movie reviews:", error);
+    return null;
   }
 }

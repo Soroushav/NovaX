@@ -1,4 +1,5 @@
 import { HiBookmark, HiHeart, HiOutlineSquaresPlus } from "react-icons/hi2";
+import { Navigate, useNavigate } from "react-router-dom";
 import SliderSlick from "react-slick";
 
 function Slider({ movies, slides }) {
@@ -7,20 +8,24 @@ function Slider({ movies, slides }) {
     infinite: true,
     speed: 500,
     slidesToShow: slides,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
-  
+  const navigate  = useNavigate();
   return (
     <>
       {/* Slick Slider Component */}
       <SliderSlick {...settings}>
         {/* Loop through the movies array and render each movie */}
         {movies.map((movie) => (
-          <div key={movie.id} className="group">
+          <div
+            key={movie.id}
+            className="group cursor-pointer"
+            onClick={() => navigate(`/movies/${movie.id}`)}
+          >
             {/* Movie Card Container */}
             <div className="h-60 bg-stone-900 rounded-3xl overflow-hidden relative mx-2">
               {/* Hover Effect: Dark Overlay with Blur */}
-              
+
               <div className="absolute inset-0 bg-black/30 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
 
               {/* Hover Effect: Action Buttons (Bookmark, Like, Add) */}
@@ -41,15 +46,15 @@ function Slider({ movies, slides }) {
 
               {/* Movie Image */}
               <img
-                src={movie.backdropImage}
-                alt={movie.title}
+                src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                alt={movie.name}
                 className="w-full h-full object-cover"
               />
             </div>
 
             {/* Movie Title */}
             <p className="text-center mt-2 text-lg font-semibold">
-              {movie.title}
+              {movie.name}
             </p>
           </div>
         ))}

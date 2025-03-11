@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useTv } from "./useTvShowsTrending";
+import { useTvShowsUpdated } from "./useTvShowsUpdated";
 import Spinner from "../../ui/Spinner";
 
 const updatedTv = [
@@ -35,9 +35,7 @@ const updatedTv = [
   },
 ];
 function DashboardLatestTvShow() {
-  const [updateActiveList, setUpdateActiveList] = useState(updatedTv[0]);
-  const { title, seasons, ratings, backdropImage } = updateActiveList;
-  const { tvShows, isLoading } = useTv();
+  const { tvShows, isLoading } = useTvShowsUpdated();
   const [activeTvShow, setActiveTvShow] = useState(null);
 
   useEffect(() => {
@@ -50,7 +48,6 @@ function DashboardLatestTvShow() {
   if (isLoading || !activeTvShow) {
     return <Spinner />;
   }
-  console.log(activeTvShow);
   return (
     <div className="max-w-[1200px] mx-auto">
       {/* Section Title */}
@@ -76,8 +73,8 @@ function DashboardLatestTvShow() {
           <h2 className="text-5xl bg-stone-700/70 rounded-lg p-3 font-bold">
             {activeTvShow.name}
           </h2>
-          {/* Number of Seasons */}
-          <p>{seasons} seasons</p>
+          {/* Genres */}
+          {/* <p>{seasons} seasons</p> */}
 
           {/* Ratings Section */}
           <div className="flex gap-3">
@@ -110,7 +107,8 @@ function DashboardLatestTvShow() {
         <div className="absolute h-20 w-[40%] bottom-20 right-14 flex items-center justify-end gap-2">
           {/* Thumbnail 1 */}
           <div
-            className="relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden"
+            className={`relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden 
+              ${tvShows[1] === activeTvShow ? "border-stone-50 border-[2px] shadow-md shadow-stone-50/35" : ""}`}
             onClick={() => setActiveTvShow(tvShows[1])}
           >
             <img
@@ -122,7 +120,8 @@ function DashboardLatestTvShow() {
 
           {/* Thumbnail 2 */}
           <div
-            className="relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden"
+            className={`relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden 
+              ${tvShows[2] === activeTvShow ? "border-stone-50 border-[2px] shadow-md shadow-stone-50/35" : ""}`}
             onClick={() => setActiveTvShow(tvShows[2])}
           >
             <img
@@ -133,7 +132,8 @@ function DashboardLatestTvShow() {
           </div>
           {/* Thumbnail 3 */}
           <div
-            className="relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden"
+            className={`relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden 
+              ${tvShows[3] === activeTvShow ? "border-stone-50 border-[2px] shadow-md shadow-stone-50/35" : ""}`}
             onClick={() => setActiveTvShow(tvShows[3])}
           >
             <img
@@ -144,11 +144,12 @@ function DashboardLatestTvShow() {
           </div>
           {/* Active Thumbnail (Selected show) */}
           <div
-            className="relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden border-stone-50 border-[2px] shadow-md shadow-stone-50/35"
-            onClick={() => setActiveTvShow(tvShows[4])}
+            className={`relative bg-green-200 w-[25%] h-[90%] rounded-xl cursor-pointer overflow-hidden 
+              ${tvShows[4] === activeTvShow ? "border-stone-50 border-[2px] shadow-md shadow-stone-50/35" : ""}`}
+            onClick={() => setActiveTvShow(tvShows[7])}
           >
             <img
-              src={`https://image.tmdb.org/t/p/original${tvShows[4].backdrop_path}`}
+              src={`https://image.tmdb.org/t/p/original${tvShows[7].backdrop_path}`}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />

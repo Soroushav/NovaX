@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getTvShows } from "../../services/apiTvShows";
+import { getTvShowsTrending } from "../../services/apiTvShows";
 
-export function useTv() {
-  const { data: tvShows, isLoading } = useQuery({
-    queryFn: () => getTvShows(),
-    queryKey: ["tvShows"],
+export function useTvShowsTrending() {
+  const { data: tvShowsTrending, isLoading } = useQuery({
+    queryFn: () => getTvShowsTrending(),
+    queryKey: ["tvShows-Trending"],
   });
-  return { tvShows, isLoading };
+  return { tvShowsTrending, isLoading };
 }
