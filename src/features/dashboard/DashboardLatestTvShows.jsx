@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTvShowsUpdated } from "./useTvShowsUpdated";
 import Spinner from "../../ui/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const updatedTv = [
   {
@@ -35,6 +36,7 @@ const updatedTv = [
   },
 ];
 function DashboardLatestTvShow() {
+  const navigate = useNavigate();
   const { tvShows, isLoading } = useTvShowsUpdated();
   const [activeTvShow, setActiveTvShow] = useState(null);
 
@@ -94,7 +96,7 @@ function DashboardLatestTvShow() {
         {/* Action Buttons (Watch & Add to List) */}
         <div className="absolute bottom-20 left-14 flex gap-3">
           {/* Watch Button */}
-          <button className="bg-indigo-200 px-6 py-3 rounded-2xl text-indigo-950 font-semibold hover:bg-indigo-300 transition duration-300 shadow-md shadow-indigo-900/65">
+          <button className="bg-indigo-200 px-6 py-3 rounded-2xl text-indigo-950 font-semibold hover:bg-indigo-300 transition duration-300 shadow-md shadow-indigo-900/65" onClick={() => navigate(`/movies/${activeTvShow.id}`)}>
             Watch
           </button>
           {/* Add Button (+) */}

@@ -4,9 +4,9 @@ import { getTvShowReviews } from "../../services/apiTvShows";
 
 export function useTvShowReviews() {
   const { moviesId } = useParams();
-  const { data: tvShowRevies, isLoading } = useQuery({
+  const { data: tvShowReviews, isLoading } = useQuery({
     queryFn: () => getTvShowReviews({ tvShowId: moviesId }),
     queryKey: [`tvShowRevies-${moviesId}`],
   });
-  return { tvShowRevies, isLoading };
+  return { tvShowReviews, isLoading };
 }

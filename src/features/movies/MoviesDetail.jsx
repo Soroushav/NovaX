@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import Button from "../../ui/Button";
 import { HiBookmark, HiHeart, HiStar } from "react-icons/hi";
 import { HiListBullet } from "react-icons/hi2";
@@ -7,6 +7,8 @@ import { useTvShowDetails } from "./usTvShowDetails";
 import Spinner from "../../ui/Spinner";
 import { useTvShowCast } from "./useTvShowCast";
 import { useTvShowReviews } from "./useTvShowReviews";
+import { useTvShowRecommendations } from "./useTvShowRecommendations";
+import { useMoveBack } from "../../hooks/useMoveBack";
 
 const updatedTrending = [
   {
@@ -154,11 +156,19 @@ const review = {
   text: "Give it time! This show is a slow burn and I have to admit, it almost lost me a couple of episodes in. I was feeling like there was too much back story and at the same time we knew nothing. Wow, was I wrong.It is an original idea that keeps you guessing. The mood, the tone, the writing, the cast, everything is just perfect. I seriously can't wait for Season 2!",
 };
 function MoviesDetail() {
+  const navigate = useNavigate();
+  const moveBack = useMoveBack();
   const { tvShowDetails, isLoading } = useTvShowDetails();
   const { tvShowCast, isLoading: isLoadingCast } = useTvShowCast();
   const { tvShowReviews, isLoading: isLoadingReviews } = useTvShowReviews();
-  if (isLoading && isLoadingCast && isLoadingReviews) return <Spinner />;
-  console.log(tvShowCast)
+  const { tvShowRecommendations, isLoading: isLoadingRecoms } =
+    useTvShowRecommendations();
+
+  if (isLoading || !tvShowDetails) return <Spinner />;
+  if (isLoadingCast || !tvShowCast) return <Spinner />;
+  if (isLoadingReviews || !tvShowReviews) return <Spinner />;
+  if (isLoadingRecoms || !tvShowRecommendations) return <Spinner />;
+  console.log(tvShowDetails);
   const {
     id,
     created_by,
@@ -169,19 +179,25 @@ function MoviesDetail() {
     seasons,
     tagline,
     overview,
-    number_of_seasons,
+    homepage,
     networks,
     vote_average,
-    homepage,
+    poster_path,
     in_production,
   } = tvShowDetails;
-
   // const { id, title, backdropImage, seasons, ratings } = updatedTrending.find(
   //   (t) => t.id === Number(moviesId)
   // );
+  const recommendations = tvShowRecommendations.slice(0, 7);
   return (
     <div className="relative">
       <div className="w-full bg-red-300 h-[600px] relative flex items-center justify-start gap-10 px-20">
+        <button
+          className="absolute top-2 left-4 z-30 text-stone-100 text-xl bg-stone-700/50 px-5 py-1 rounded-md"
+          onClick={moveBack}
+        >
+          &larr; Back
+        </button>
         {/* Main Image */}
         <img
           src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
@@ -194,13 +210,16 @@ function MoviesDetail() {
         {/* Movie Card */}
         <div className="w-[310px] h-3/4 rounded-2xl overflow-hidden relative z-10 flex-shrink-0">
           <img
-            src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/original${poster_path}`}
             alt={name}
             className="w-full h-full object-cover"
           />
 
           {/* Streaming Info */}
-          <div className="bg-indigo-400 h-1/6 w-full absolute bottom-0">
+          <div
+            className="bg-indigo-400 h-1/6 w-full absolute bottom-0"
+            onClick={() => window.open(homepage, "_blank")}
+          >
             <div className="flex gap-2 items-center justify-center top-1/2 relative -translate-y-1/2 cursor-pointer">
               <div className="w-14 h-7">
                 <img
@@ -249,23 +268,29 @@ function MoviesDetail() {
             </Button>
           </div>
           {/* Creators */}
-          <div className="mt-3 text-stone-100 ">
-            <p>Creator:</p>
-            <p className="font-semibold">
-              |{" "}
-              {created_by.map((creator) => (
-                <span>{creator.name} | </span>
-              ))}
-            </p>
-          </div>
-          <div className="mt-10 font-semibold text-indigo-600 bg-stone-100/60 rounded-lg w-[400px] px-2 py-1">
-            <p>{tagline}</p>
-          </div>
+          {created_by && (
+            <div className="mt-3 text-stone-100 ">
+              <p>Creator:</p>
+              <p className="font-semibold">
+                |{" "}
+                {created_by.map((creator) => (
+                  <span key={creator.id}>{creator.name} | </span>
+                ))}
+              </p>
+            </div>
+          )}
+          {tagline && (
+            <div className="mt-10 font-semibold text-indigo-600 bg-stone-100/60 rounded-lg w-[400px] px-2 py-1">
+              <p>{tagline}</p>
+            </div>
+          )}
           {/* Description */}
-          <div className="mt-2 text-stone-100 max-w-[700px]">
-            <p className="text-2xl font-semibold">Description</p>
-            <p className="text-md text-stone-200">{overview}</p>
-          </div>
+          {overview && (
+            <div className="mt-2 text-stone-100 max-w-[700px]">
+              <p className="text-2xl font-semibold">Description</p>
+              <p className="text-md text-stone-200">{overview}</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -287,7 +312,10 @@ function MoviesDetail() {
         {seasons
           .filter((season) => season.name.toLowerCase() !== "specials")
           .map((season) => (
-            <div className="rounded-xl border shadow-stone-300/50 shadow-lg border-stone-300 h-52 overflow-hidden flex gap-5">
+            <div
+              className="rounded-xl border shadow-stone-300/50 shadow-lg border-stone-300 h-52 overflow-hidden flex gap-5"
+              key={season.id}
+            >
               <div className="h-full w-[120px] flex-shrink-0">
                 <img
                   src={`https://image.tmdb.org/t/p/original${season.poster_path}`}
@@ -305,12 +333,13 @@ function MoviesDetail() {
                     <p className="text-stone-100">{season.vote_average}%</p>
                   </div>
                   <p className="text-stone-700">
-                    {season.air_date.split("-")[0]} • {season.episode_count}{" "}
+                    {season.air_date?.split("-")[0]} • {season.episode_count}{" "}
                     Episodes
                   </p>
                 </div>
                 {/* <p className="mt-4 text-stone-500">{season.detail}</p> */}
-                <p className="mt-4 max-w-[80%] text-stone-800">
+
+                <p className="mt-4 max-w-[80%] text-stone-800 line-clamp-4">
                   {season.overview}
                 </p>
               </div>
@@ -322,47 +351,62 @@ function MoviesDetail() {
         Review
       </h2>
       <div className="flex flex-col gap-3 px-11 border-b pb-6 border-stone-300">
-        <div className="rounded-xl border shadow-stone-300/50 shadow-lg border-stone-300 h-60 overflow-hidden flex gap-5">
-          <div className="ml-4 mt-4 flex flex-col gap-3">
-            {/* Heading */}
-            <div className="flex items-center gap-2">
-              {/* Image */}
-              <div>
-                <img
-                  src={review.img}
-                  alt="review img"
-                  className="h-14 w-14 rounded-full"
-                />
-              </div>
-              {/* Review Information */}
-              <div className="flex flex-col gap-1">
-                {/* Name */}
-                <p className="text-lg text-stone-800">
-                  A review by :{" "}
-                  <span className="font-semibold text-stone-600">
-                    {review.name}
-                  </span>
-                </p>
-                {/* Rating and Date */}
-                <div className="flex gap-2 items-center">
-                  <div className="flex items-center bg-indigo-600 w-16 p-1 rounded-lg">
-                    <HiStar className="text-yellow-400" />
-                    <p className="text-stone-100">{review.rating}%</p>
-                  </div>
-                  <p className="text-stone-600 ">
-                    Written by{" "}
-                    <span className="font-medium text-stone-800">
-                      {review.name}
-                    </span>{" "}
-                    on <span>{review.date}</span>
+        {tvShowReviews.length === 0 ? (
+          <p className="text-stone-600 text-xl">
+            There is no Reviews on this Tv Show
+          </p>
+        ) : (
+          <div className="rounded-xl border shadow-stone-300/50 shadow-lg border-stone-300 h-60 overflow-hidden flex gap-5">
+            <div className="ml-4 mt-4 flex flex-col gap-3">
+              {/* Heading */}
+              <div className="flex items-center gap-2">
+                {/* Image */}
+                <div>
+                  <img
+                    src={
+                      tvShowReviews[0]?.author_details.avatar_path
+                        ? `https://image.tmdb.org/t/p/original${tvShowReviews[0].author_details.avatar_path}`
+                        : "/default-user.jpg"
+                    }
+                    alt={tvShowReviews[0]?.author}
+                    className="h-14 w-14 rounded-full"
+                  />
+                </div>
+                {/* Review Information */}
+                <div className="flex flex-col gap-1">
+                  {/* Name */}
+                  <p className="text-lg text-stone-800">
+                    A review by :{" "}
+                    <span className="font-semibold text-stone-600">
+                      {tvShowReviews[0]?.author}
+                    </span>
                   </p>
+                  {/* Rating and Date */}
+                  <div className="flex gap-2 items-center">
+                    <div className="flex items-center bg-indigo-600 w-16 p-1 rounded-lg">
+                      <HiStar className="text-yellow-400" />
+                      <p className="text-stone-100">
+                        {tvShowReviews[0]?.author_details.rating * 10}%
+                      </p>
+                    </div>
+                    <p className="text-stone-600 ">
+                      Written by{" "}
+                      <span className="font-medium text-stone-800">
+                        {tvShowReviews[0]?.author}
+                      </span>{" "}
+                      on{" "}
+                      <span>{tvShowReviews[0]?.updated_at.slice(0, 10)}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <p className="w-[95%] px-2 text-stone-800 text-lg">{review.text}</p>
+              <p className="w-[95%] px-2 text-stone-800 text-lg line-clamp-5">
+                {tvShowReviews[0]?.content}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {/* Recommendations */}
       <h2 className="text-stone-600 text-3xl ml-10 mt-5 font-semibold mb-4  pt-6">
@@ -370,7 +414,25 @@ function MoviesDetail() {
       </h2>
       <div className="h-80 px-10 overflow-hidden">
         <ul className="h-full flex items-center gap-4 overflow-x-auto">
-          <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
+          {recommendations.map((movie) => (
+            <li
+              className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden"
+              onClick={() => navigate(`/movies/${movie.id}`)}
+              key={movie.id}
+            >
+              <div>
+                <img
+                  src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                  alt={movie.name}
+                  className="w-full h-5/6 object-cover"
+                />
+                <p className="text-center mt-1 text-stone-700 text-lg font-semibold">
+                  {movie.name}
+                </p>
+              </div>
+            </li>
+          ))}
+          {/* <li className="cursor-pointer h-4/5 w-[400px] flex-shrink-0 flex flex-col rounded-md overflow-hidden">
             <div>
               <img
                 src="/tv1-backdrop.jpg"
@@ -429,7 +491,7 @@ function MoviesDetail() {
                 BEEF
               </p>
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

@@ -81,9 +81,25 @@ export async function getTvShowReviews({ tvShowId }) {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    return data;
+    return data.results;
   } catch (error) {
     console.error("Error fetching movie reviews:", error);
+    return null;
+  }
+}
+
+export async function getTvShowRecommendations({ tvShowId }) {
+  const url = `https://api.themoviedb.org/3/tv/${tvShowId}/recommendations?language=en-US&page=1`;
+  const options = {
+    method: "GET",
+    headers: headers,
+  };
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error("Error fetching movie recommendations:", error);
     return null;
   }
 }

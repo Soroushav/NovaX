@@ -6,7 +6,6 @@ import UserAvatar from "../features/authentication/UserAvatar";
 
 function UserHeader() {
   const iconStyle = "text-4xl text-stone-400 rounded-full p-1 cursor-pointer";
-  console.log(iconStyle + ` text-stone-800`)
   return (
     <div className="flex gap-2 items-center">
       <div className="relative">

@@ -1,11 +1,13 @@
 import {
+  HiArchiveBoxArrowDown,
   HiMagnifyingGlass,
   HiOutlineArrowRightOnRectangle,
   HiOutlineCalendarDateRange,
   HiOutlineCog6Tooth,
   HiOutlineHeart,
+  HiOutlineHome,
 } from "react-icons/hi2";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, NavList } from "react-router-dom";
 
 const list = `hover:bg-indigo-50 w-full transition duration-300 rounded-md border-l-8 border-transparent hover:border-indigo-400`;
 
@@ -19,9 +21,9 @@ function MainNav() {
     <ul className=" w-full py-11 space-y-2">
       <p className="text-stone-400 text-lg py-3 px-14">Menu</p>
       <li className={list}>
-        <NavLink className={link}>
-          <HiMagnifyingGlass className={iconStyle} />
-          Browse
+        <NavLink className={link} to="/dashboard">
+          <HiOutlineHome className={iconStyle} />
+          Homepage
         </NavLink>
       </li>
       <li className={list}>
@@ -50,6 +52,7 @@ function MainNav() {
         </NavLink>
       </li>
     </ul>
+
   );
 }
 
