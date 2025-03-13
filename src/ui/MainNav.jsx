@@ -7,7 +7,7 @@ import {
   HiOutlineHeart,
   HiOutlineHome,
 } from "react-icons/hi2";
-import { NavLink, useNavigate, NavList } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const list = `hover:bg-indigo-50 w-full transition duration-300 rounded-md border-l-8 border-transparent hover:border-indigo-400`;
 

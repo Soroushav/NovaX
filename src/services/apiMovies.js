@@ -4,9 +4,9 @@ const headers = {
     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3N2FmZjdiMDkyZjEyNTc5MDE3ODk2YzFhNWQxMWE0MCIsIm5iZiI6MTc0MDgyMTA5NC42OTUwMDAyLCJzdWIiOiI2N2MyZDI2NmMyZTYzMzc1NWI2ZGQ4OWIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.aNsRv1gY77RK6DDLVSF-AY0vpwPseo_ZNVzeaLZXa-o",
 };
 
-export async function getTvShows() {
+export async function getMovies() {
   const url =
-    "https://api.themoviedb.org/3/discover/tv?air_date.gte=2025-03-07&include_adult=true&include_null_first_air_dates=false&language=en-US&sort_by=vote_average.desc&vote_average.gte=8&vote_count.gte=2000";
+    "https://api.themoviedb.org/3/discover/movie?air_date.gte=2025-03-07&include_adult=true&include_null_first_air_dates=false&language=en-US&sort_by=vote_average.desc&vote_average.gte=8&vote_count.gte=2000";
 
   const options = {
     method: "GET",
@@ -23,8 +23,8 @@ export async function getTvShows() {
     return null; // Handle errors gracefully
   }
 }
-export async function getTvShowsTrending() {
-  const url = "https://api.themoviedb.org/3/trending/tv/week?language=en-US";
+export async function getMoviesTrending() {
+  const url = "https://api.themoviedb.org/3/trending/movie/week?language=en-US";
   const options = {
     method: "GET",
     headers: headers,
@@ -40,8 +40,8 @@ export async function getTvShowsTrending() {
   }
 }
 
-export async function getTvShowsDetails({ tvShowId }) {
-  const url = `https://api.themoviedb.org/3/tv/${tvShowId}?language=en-US`;
+export async function getMoviesDetails({ movieId }) {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`;
   const options = {
     method: "GET",
     headers: headers,
@@ -56,8 +56,8 @@ export async function getTvShowsDetails({ tvShowId }) {
   }
 }
 
-export async function getTvShowCast({ tvShowId }) {
-  const url = `https://api.themoviedb.org/3/tv/${tvShowId}/aggregate_credits`;
+export async function getMovieCast({ movieId }) {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}/credits`;
   const options = {
     method: "GET",
     headers: headers,
@@ -72,8 +72,8 @@ export async function getTvShowCast({ tvShowId }) {
   }
 }
 
-export async function getTvShowReviews({ tvShowId }) {
-  const url = `https://api.themoviedb.org/3/tv/${tvShowId}/reviews`;
+export async function getMovieReviews({ movieId }) {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}/reviews`;
   const options = {
     method: "GET",
     headers: headers,
@@ -88,8 +88,8 @@ export async function getTvShowReviews({ tvShowId }) {
   }
 }
 
-export async function getTvShowRecommendations({ tvShowId }) {
-  const url = `https://api.themoviedb.org/3/tv/${tvShowId}/recommendations?language=en-US&page=1`;
+export async function getMovieRecommendations({ movieId }) {
+  const url = `https://api.themoviedb.org/3/movie/${movieId}/recommendations?language=en-US&page=1`;
   const options = {
     method: "GET",
     headers: headers,
@@ -103,9 +103,8 @@ export async function getTvShowRecommendations({ tvShowId }) {
     return null;
   }
 }
-
-export async function getSearchTvShows({ query }) {
-  const url = `https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=1`;
+export async function getSearchMovies({ query }) {
+  const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`;
   const options = {
     method: "GET",
     headers: headers,

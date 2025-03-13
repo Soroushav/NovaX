@@ -2,6 +2,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "../../ui/Slider";
 import { useTvShowsTrending } from "./useTvShowsTrending";
+import { useMoviesTrending } from "./useMoviesTrending";
 import Spinner from "../../ui/Spinner";
 
 // const updatedTrending = [
@@ -68,15 +69,17 @@ import Spinner from "../../ui/Spinner";
 // ];
 
 function DashboardTrending() {
-  const { tvShowsTrending, isLoading } = useTvShowsTrending();
-  if (isLoading) {
+  const { tvShowsTrending, isLoading: isLoadingTvShows } = useTvShowsTrending();
+  const {moviesTrending, isLoading: isLoadingMovies} = useMoviesTrending();
+  if (isLoadingTvShows || isLoadingMovies) {
     return <Spinner />;
   }
-  console.log(tvShowsTrending);
   return (
     <div className="max-w-[1200px] mx-auto">
-      <p className="text-3xl mb-4 ml-2 mt-6 text-stone-600">Trending</p>
-      <Slider movies={tvShowsTrending} slides={6} />
+      <p className="text-3xl mb-4 ml-2 mt-6 text-stone-600">Trending Series</p>
+      <Slider movies={tvShowsTrending} slides={6} type="tv" />
+      <p className="text-3xl mb-4 ml-2 mt-6 text-stone-600">Trending Movies</p>
+      <Slider movies={moviesTrending} slides={6} type="movie" />
     </div>
   );
 }

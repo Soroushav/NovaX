@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Search from "./pages/Search";
 
 function App() {
   const queryClient = new QueryClient({
@@ -25,6 +26,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="movies/:moviesId" element={<Movies />} />
             <Route path="series/:seriesId" element={<Series />} />
+            <Route path="search" element={<Search />} />
           </Route>
         </Routes>
       </BrowserRouter>

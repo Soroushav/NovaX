@@ -1,8 +1,8 @@
 import { HiBookmark, HiHeart, HiOutlineSquaresPlus } from "react-icons/hi2";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SliderSlick from "react-slick";
 
-function Slider({ movies, slides }) {
+function Slider({ movies, slides, type }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -11,6 +11,7 @@ function Slider({ movies, slides }) {
     slidesToScroll: 1,
   };
   const navigate  = useNavigate();
+  const urlClick = type === "movie" ? 'movies' : 'series';
   return (
     <>
       {/* Slick Slider Component */}
@@ -20,7 +21,7 @@ function Slider({ movies, slides }) {
           <div
             key={movie.id}
             className="group cursor-pointer"
-            onClick={() => navigate(`/movies/${movie.id}`)}
+            onClick={() => navigate(`/${urlClick}/${movie.id}`)}
           >
             {/* Movie Card Container */}
             <div className="h-60 bg-stone-900 rounded-3xl overflow-hidden relative mx-2">
@@ -54,7 +55,7 @@ function Slider({ movies, slides }) {
 
             {/* Movie Title */}
             <p className="text-center mt-2 text-lg font-semibold">
-              {movie.name}
+              {movie.title || movie.name}
             </p>
           </div>
         ))}

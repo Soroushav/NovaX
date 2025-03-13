@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { getTvShowRecommendations } from "../../services/apiTvShows";
 
 export function useTvShowRecommendations() {
-  const { moviesId } = useParams();
+  const { seriesId } = useParams();
   const { data: tvShowRecommendations, isLoading } = useQuery({
-    queryFn: () => getTvShowRecommendations({ tvShowId: moviesId }),
-    queryKey: [`tvShowRecommendations-${moviesId}`],
+    queryFn: () => getTvShowRecommendations({ tvShowId: seriesId }),
+    queryKey: [`tvShowRecommendations-${seriesId}`],
   });
   return { tvShowRecommendations, isLoading };
 }

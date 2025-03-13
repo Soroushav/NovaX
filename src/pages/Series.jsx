@@ -1,7 +1,7 @@
-import SeriesDetail from "../features/series/SeriesDetail";
+import TvShowDetail from "../features/tvShow/TvShowDetail";
 
 function Series() {
-  return <SeriesDetail />;
+  return <TvShowDetail />;
 }
 
 export default Series;

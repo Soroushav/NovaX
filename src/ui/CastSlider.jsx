@@ -8,7 +8,6 @@ function CastSlider({ cast }) {
     slidesToShow: 5, // Default for large screens
     slidesToScroll: 1,
   };
-
   return (
     <>
       {/* Slick Slider Component */}
@@ -27,8 +26,7 @@ function CastSlider({ cast }) {
               />
               <div className="absolute bottom-0 w-full h-1/3 bg-stone-100 text-stone-900 flex flex-col justify-center items-center">
                 <p className="text-lg font-medium">{actor.name}</p>
-                <p>{actor.roles[0].character}</p>
-                <p className="text-stone-500">{actor.total_episode_count} Episodes</p>
+                <p>{actor.character}</p>
               </div>
             </div>
           </div>
