@@ -10,6 +10,8 @@ function SearchDetails() {
   const { resultTvShows, isLoading: isLoadingTvShow } =
     useSearchResultsTvShows();
   const { resultMovies, isLoading: isLoadingMovies } = useSearchResultsMovies();
+  if(isLoadingTvShow && !resultTvShows) return <Spinner/>
+  if(isLoadingTvShow && !resultTvShows) return <Spinner/>
   return (
     <div className="py-2 px-10 w-full h-full">
       <h1 className=" text-stone-700 text-2xl">

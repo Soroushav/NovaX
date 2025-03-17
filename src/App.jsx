@@ -5,6 +5,11 @@ import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Search from "./pages/Search";
+import LoginForm from "./features/authentication/LoginForm";
+import { Toaster } from "react-hot-toast";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProtectedRoute from "./ui/ProtectedRoute";
+import SignUpForm from "./features/authentication/SignUpForm";
 
 function App() {
   const queryClient = new QueryClient({
@@ -16,9 +21,16 @@ function App() {
   });
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route
               index
               element={<Navigate replace to="dashboard"></Navigate>}
@@ -28,8 +40,28 @@ function App() {
             <Route path="series/:seriesId" element={<Series />} />
             <Route path="search" element={<Search />} />
           </Route>
+          <Route path="login" element={<LoginForm />} />
+          <Route path="signup" element={<SignUpForm />} />
         </Routes>
       </BrowserRouter>
+      <Toaster
+        position="top-center"
+        gutter={12}
+        containerStyle={{ margin: "8px" }}
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+          style: {
+            fontSize: "16px",
+            maxWidth: "500px",
+            padding: "16px 24px",
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }
