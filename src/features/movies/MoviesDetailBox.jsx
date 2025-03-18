@@ -3,10 +3,13 @@ import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useMoviesDetails } from "./useMovieDetails";
+import { useFavouriteListAddItem } from "../favourite/useFavouriteListAddItem";
 
 function MoviesDetailBox() {
   const moveBack = useMoveBack();
   const { moviesDetails, isLoading } = useMoviesDetails();
+  const { insertFavourite, isLoading: isInsertingToFavourite } =
+    useFavouriteListAddItem();
   if (isLoading || !moviesDetails) return <Spinner />;
   const {
     id,
@@ -21,8 +24,20 @@ function MoviesDetailBox() {
     origin_country,
     poster_path,
   } = moviesDetails;
+
+  function handleAddtoFavourite(e) {
+    e.preventDefault();
+    const item = {
+      movie_id: id,
+      title,
+      backdrop_path,
+      poster_path,
+      overview,
+    };
+    insertFavourite({ added_item: item, isMovie: true });
+  }
   return (
-    <div className="w-full bg-red-300 h-[600px] relative flex items-center justify-start gap-10 px-20">
+    <div className="w-full h-[600px] relative flex items-center justify-start gap-10 px-20">
       <button
         className="absolute top-2 left-4 z-30 text-stone-100 text-xl bg-stone-700/50 px-5 py-1 rounded-md"
         onClick={moveBack}
@@ -90,7 +105,7 @@ function MoviesDetailBox() {
           <Button shape="circle">
             <HiListBullet />
           </Button>
-          <Button shape="circle">
+          <Button shape="circle" onClick={handleAddtoFavourite}>
             <HiHeart />
           </Button>
           <Button shape="circle">

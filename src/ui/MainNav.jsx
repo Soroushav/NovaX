@@ -7,7 +7,7 @@ import {
   HiOutlineHeart,
   HiOutlineHome,
 } from "react-icons/hi2";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useLogout } from "../features/authentication/useLogout";
 import Spinner from "./Spinner";
 
@@ -20,6 +20,7 @@ const iconStyle =
   "text-stone-500 transition duration-300 group-hover:text-indigo-900 font-extrabold text-2xl";
 function MainNav() {
   const { logout, isLoading } = useLogout();
+  const navigate = useNavigate();
   if (isLoading) return <Spinner />;
   return (
     <ul className=" w-full py-11 space-y-2">
@@ -30,7 +31,10 @@ function MainNav() {
           Homepage
         </NavLink>
       </li>
-      <li className={list}>
+      <li className={list} onClick={(e) => {
+          e.preventDefault();
+          navigate('/favourite');
+        }}>
         <NavLink className={link}>
           <HiOutlineHeart className={iconStyle} />
           Favourite

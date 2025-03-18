@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SignUpForm from "./features/authentication/SignUpForm";
+import Favourite from "./pages/Favourite";
 
 function App() {
   const queryClient = new QueryClient({
@@ -39,6 +40,7 @@ function App() {
             <Route path="movies/:moviesId" element={<Movies />} />
             <Route path="series/:seriesId" element={<Series />} />
             <Route path="search" element={<Search />} />
+            <Route path="favourite" element={<Favourite />} />
           </Route>
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />

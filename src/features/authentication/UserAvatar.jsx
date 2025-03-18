@@ -9,7 +9,7 @@ function UserAvatar() {
         src="/default-user.jpg"
       />
       <div>
-        <p className="font-bold">{user.user_metadata.fullName}</p>
+        <p className="font-bold">{user.user_metadata.fullName || 'user'}</p>
         <p className="text-stone-600">Level 2</p>
       </div>
     </div>

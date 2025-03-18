@@ -1,4 +1,4 @@
-function Button({ type, shape, textColor, children }) {
+function Button({ type, shape, textColor, onClick, children }) {
   const color =
     type === "primary" || type === undefined
       ? "bg-indigo-200 text-indigo-950 shadow-indigo-900/65 hover:bg-indigo-300 "
@@ -13,6 +13,7 @@ function Button({ type, shape, textColor, children }) {
   return (
     <button
       className={`transition text-2xl duration-300 shadow-md text-stone-700 ${round} ${color}`}
+      onClick={onClick}
     >
       {children}
     </button>
