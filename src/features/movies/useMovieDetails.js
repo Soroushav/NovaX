@@ -6,7 +6,7 @@ export function useMoviesDetails() {
   const { moviesId } = useParams();
   const { data: moviesDetails, isLoading } = useQuery({
     queryFn: () => getMoviesDetails({ movieId: moviesId }),
-    queryKey: [`movie-[${moviesId}]`],
+    queryKey: [`movie-${moviesId}`],
   });
   return { moviesDetails, isLoading };
 }

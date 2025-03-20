@@ -22,6 +22,7 @@ function MoviesDetailBox() {
     homepage,
     production_companies,
     origin_country,
+    vote_average,
     poster_path,
   } = moviesDetails;
 
@@ -33,6 +34,7 @@ function MoviesDetailBox() {
       backdrop_path,
       poster_path,
       overview,
+      vote_average
     };
     insertFavourite({ added_item: item, isMovie: true });
   }

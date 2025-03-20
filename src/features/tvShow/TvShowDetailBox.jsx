@@ -3,10 +3,13 @@ import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useTvShowDetails } from "./useTvShowDetails";
+import { useFavouriteListAddItem } from "../favourite/useFavouriteListAddItem";
 
 function TvShowDetailBox() {
   const { tvShowDetails, isLoading } = useTvShowDetails();
   const moveBack = useMoveBack();
+  const { insertFavourite, isLoading: isInsertingToFavourite } =
+    useFavouriteListAddItem();
   if (isLoading || !tvShowDetails) return <Spinner />;
   const {
     id,
@@ -24,6 +27,19 @@ function TvShowDetailBox() {
     poster_path,
     in_production,
   } = tvShowDetails;
+
+  function handleAddtoFavourite(e) {
+    e.preventDefault();
+    const item = {
+      movie_id: id,
+      title: name,
+      backdrop_path,
+      poster_path,
+      overview,
+      vote_average,
+    };
+    insertFavourite({ added_item: item, isMovie: false });
+  }
   return (
     <div className="w-full bg-red-300 h-[600px] relative flex items-center justify-start gap-10 px-20">
       <button
@@ -94,7 +110,7 @@ function TvShowDetailBox() {
           <Button shape="circle">
             <HiListBullet />
           </Button>
-          <Button shape="circle">
+          <Button shape="circle" onClick={handleAddtoFavourite}>
             <HiHeart />
           </Button>
           <Button shape="circle">
