@@ -1,13 +1,33 @@
 import { useNavigate } from "react-router-dom";
+import { useFavouriteRemoveItem } from "../features/favourite/useFavouriteListRemoveItem";
 
-function MovieCard({movie, index}) {
+function MovieCard({ movie, index, removeButton }) {
   const navigate = useNavigate();
-    return (
+  const { removeFavourite, isLoading } = useFavouriteRemoveItem();
+  return (
     <div
       key={index}
-      className="bg-stone-50/10 border-2 border-stone-300 rounded-md h-40 flex overflow-hidden shadow-xl cursor-pointer hover:bg-stone-50/40"
+      className="bg-stone-50/10 border-2 border-stone-300 rounded-md h-40 flex overflow-hidden shadow-xl cursor-pointer hover:bg-stone-50/40 relative"
       onClick={() => navigate(`/movies/${movie.id}`)}
     >
+      {isLoading ? (
+        <div className="w-full h-full absolute top-0 left-0 backdrop-blur-lg"></div>
+      ) : (
+        ""
+      )}
+      {removeButton ? (
+        <button
+          className="z-20 w-5 h-5 bg-indigo-600 text-stone-200 rounded-full absolute right-0 flex justify-center items-center p-1"
+          onClick={(e) => {
+            e.stopPropagation();
+            removeFavourite({ remove_item_id: movie.id, isMovie: true });
+          }}
+        >
+          X
+        </button>
+      ) : (
+        ""
+      )}
       <div className="w-1/4 h-full flex-shrink-0">
         <img
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}

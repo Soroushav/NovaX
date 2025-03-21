@@ -4,13 +4,13 @@ import supabase from "./supabase";
 export async function getFavourite({ user_id, pageMovie, pageSeries }) {
   let queryMovie = supabase
     .from("favourite")
-    .select("*", { count: "exact" }) 
+    .select("*", { count: "exact" })
     .eq("user_id", user_id)
     .eq("isMovie", true);
 
   let querySeries = supabase
     .from("favourite")
-    .select("*", { count: "exact" }) 
+    .select("*", { count: "exact" })
     .eq("user_id", user_id)
     .eq("isMovie", false);
 
@@ -46,7 +46,7 @@ export async function getFavourite({ user_id, pageMovie, pageSeries }) {
     favourite_movie,
     favourite_series,
     countMovie,
-    countSeries, 
+    countSeries,
   };
 }
 
@@ -59,6 +59,22 @@ export async function insertFavourite({ user_id, added_item, isMovie }) {
   if (error) {
     console.error("Error inserting favourite:", error);
     throw new Error("There has been an error adding favourite movies!");
+  }
+
+  return data;
+}
+
+export async function removeFavourite({ user_id, remove_item_id, isMovie }) {
+  const { data, error } = await supabase
+    .from("favourite")
+    .delete()
+    .eq("user_id", user_id)
+    .eq("movie_id", remove_item_id)
+    .eq("isMovie", isMovie);
+
+  if (error) {
+    console.error("Error deleting from favourite:", error);
+    throw new Error("There has been an error deleting favourite movies!");
   }
 
   return data;

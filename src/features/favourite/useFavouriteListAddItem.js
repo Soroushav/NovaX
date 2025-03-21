@@ -14,6 +14,6 @@ export function useFavouriteListAddItem() {
       toast.success("Movie added successfully;");
     },
   });
-
+  
   return { insertFavourite, isLoading };
 }

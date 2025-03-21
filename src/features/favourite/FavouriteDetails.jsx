@@ -1,16 +1,15 @@
 import MovieCard from "../../ui/MovieCard";
 import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
+import { PAGE_SIZE } from "../../utils/constants";
 import { useFavouriteList } from "./useFavouriteList";
-
+import SeriesCard from "../../ui/SeriesCard";
 function FavouriteDetails() {
   const {
-    favourite: {
-      favourite_movie,
-      favourite_series,
-      countMovie,
-      countSeries,
-    } = {},
+    favourite_movie,
+    favourite_series,
+    countMovie,
+    countSeries,
     isLoading,
   } = useFavouriteList();
   if (isLoading) return <Spinner />;
@@ -24,11 +23,20 @@ function FavouriteDetails() {
           favourite_movie
             ?.filter((movie) => movie.isMovie === true)
             .map((movie, index) => (
-              <MovieCard key={movie.id} movie={movie} index={index} />
+              <MovieCard
+                key={movie.id}
+                movie={{ ...movie, id: movie.movie_id }}
+                index={index}
+                removeButton={true}
+              />
             ))
         )}
       </div>
-      <Pagination count={countMovie} isMovie={true} />
+      {countMovie / PAGE_SIZE > 1 ? (
+        <Pagination count={countMovie} isMovie={true} />
+      ) : (
+        ""
+      )}
 
       <h2 className="px-20 mb-5 text-stone-700 text-3xl mt-7">
         Favourite Series
@@ -40,11 +48,20 @@ function FavouriteDetails() {
           favourite_series
             ?.filter((movie) => movie.isMovie !== true)
             .map((movie, index) => (
-              <MovieCard key={movie.id} movie={movie} index={index} />
+              <SeriesCard
+                key={movie.id}
+                movie={{ ...movie, id: movie.movie_id }}
+                index={index}
+                removeButton={true}
+              />
             ))
         )}
       </div>
-      <Pagination count={countSeries} isMovie={false} />
+      {countSeries / PAGE_SIZE > 1 ? (
+        <Pagination count={countSeries} isMovie={false} />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
