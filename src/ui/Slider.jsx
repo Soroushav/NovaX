@@ -1,8 +1,15 @@
 import { HiBookmark, HiHeart, HiOutlineSquaresPlus } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import SliderSlick from "react-slick";
+import { useFavouriteListAddItem } from "../features/favourite/useFavouriteListAddItem";
+import { useWatchlistAddItem } from "../features/watchlist/useWatchlistAddItem";
 
 function Slider({ movies, slides, type }) {
+  const { insertFavourite, isLoading: isLoadingFavourite } =
+    useFavouriteListAddItem();
+
+  const { insertWatchlist, isLoading: isLoadingWatchlist } =
+    useWatchlistAddItem();
   const settings = {
     dots: true,
     infinite: true,
@@ -10,8 +17,8 @@ function Slider({ movies, slides, type }) {
     slidesToShow: slides,
     slidesToScroll: 1,
   };
-  const navigate  = useNavigate();
-  const urlClick = type === "movie" ? 'movies' : 'series';
+  const navigate = useNavigate();
+  const urlClick = type === "movie" ? "movies" : "series";
   return (
     <>
       {/* Slick Slider Component */}
@@ -36,11 +43,43 @@ function Slider({ movies, slides, type }) {
                   <HiBookmark />
                 </button>
                 {/* Like Button */}
-                <button className="transition duration-300 hover:text-red-500">
+                <button
+                  className="transition duration-300 hover:text-red-500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    insertFavourite({
+                      added_item: {
+                        movie_id: movie.id,
+                        title: movie.title,
+                        backdrop_path: movie.backdrop_path,
+                        poster_path: movie.poster_path,
+                        overview: movie.overview,
+                        vote_average: movie.vote_average,
+                      },
+                      isMovie: type === "movie",
+                    });
+                  }}
+                >
                   <HiHeart />
                 </button>
                 {/* Add to List Button */}
-                <button className="transition duration-300 hover:text-yellow-500">
+                <button
+                  className="transition duration-300 hover:text-yellow-500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    insertWatchlist({
+                      added_item: {
+                        movie_id: movie.id,
+                        title: movie.title,
+                        backdrop_path: movie.backdrop_path,
+                        poster_path: movie.poster_path,
+                        overview: movie.overview,
+                        vote_average: movie.vote_average,
+                      },
+                      isMovie: type === "movie",
+                    });
+                  }}
+                >
                   <HiOutlineSquaresPlus />
                 </button>
               </div>

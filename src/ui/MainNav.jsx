@@ -31,16 +31,25 @@ function MainNav() {
           Homepage
         </NavLink>
       </li>
-      <li className={list} onClick={(e) => {
+      <li
+        className={list}
+        onClick={(e) => {
           e.preventDefault();
-          navigate('/favourite');
-        }}>
+          navigate("/favourite");
+        }}
+      >
         <NavLink className={link}>
           <HiOutlineHeart className={iconStyle} />
           Favourite
         </NavLink>
       </li>
-      <li className={list}>
+      <li
+        className={list}
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/watchlist");
+        }}
+      >
         <NavLink className={link}>
           <HiOutlineCalendarDateRange className={iconStyle} /> Watchlist
         </NavLink>

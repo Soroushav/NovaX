@@ -11,6 +11,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SignUpForm from "./features/authentication/SignUpForm";
 import Favourite from "./pages/Favourite";
+import WatchListDetails from "./features/watchlist/WatchlistDetails";
+import Watchlist from "./pages/Watchlist";
+import Account from "./pages/Account";
+import Password from "./pages/Password";
 
 function App() {
   const queryClient = new QueryClient({
@@ -41,6 +45,9 @@ function App() {
             <Route path="series/:seriesId" element={<Series />} />
             <Route path="search" element={<Search />} />
             <Route path="favourite" element={<Favourite />} />
+            <Route path="watchlist" element={<Watchlist />} />
+            <Route path="account" element={<Account />} />
+            <Route path="password" element={<Password />} /> 
           </Route>
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />

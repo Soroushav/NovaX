@@ -1,16 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useFavouriteRemoveItem } from "../features/favourite/useFavouriteListRemoveItem";
+import { useWatchlistRemoveItem } from "../features/watchlist/useWatchlistRemoveItem";
 
-function SeriesCard({ movie, index, removeButton }) {
+function SeriesCard({ movie, index, removeButton, collection }) {
   const navigate = useNavigate();
-  const { removeFavourite, isLoading } = useFavouriteRemoveItem();
+  const { removeFavourite, isLoading: isRemovingFavourite } =
+    useFavouriteRemoveItem();
+  const { removeWatchlist, isLoading: isRemovingWatchlist } =
+    useWatchlistRemoveItem();
+
+  const actionMap = {
+    favourite: removeFavourite,
+    watchlist: removeWatchlist,
+  };
+  const removeAction = actionMap[collection];
+
   return (
     <div
       key={index}
       className="bg-stone-50/10 border-2 border-stone-300 rounded-md h-40 flex overflow-hidden shadow-xl hover:bg-stone-50/40 cursor-pointer relative"
       onClick={() => navigate(`/series/${movie.id}`)}
     >
-      {isLoading ? (
+      {isRemovingFavourite || isRemovingWatchlist ? (
         <div className="w-full h-full absolute top-0 left-0 backdrop-blur-lg"></div>
       ) : (
         ""
@@ -20,7 +31,7 @@ function SeriesCard({ movie, index, removeButton }) {
           className="z-20 w-5 h-5 bg-indigo-600 text-stone-200 rounded-full absolute right-0 flex justify-center items-center p-1"
           onClick={(e) => {
             e.stopPropagation();
-            removeFavourite({ remove_item_id: movie.id, isMovie: false });
+            removeAction({ remove_item_id: movie.id, isMovie: false });
           }}
         >
           X
